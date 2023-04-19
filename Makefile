@@ -1,4 +1,6 @@
-VENV_NAME="my-env"
+DOCKER_TAG="website_project"
+VENV_NAME="env"
+
 
 venv:
 	rm -rf ./$(VENV_NAME)
@@ -12,7 +14,15 @@ install:
 run:
 	python website_project/main.py
 
-cold-start: venv install run
+docker-build:
+	docker build . --tag $(DOCKER_TAG):latest
 
-clean:
-	rm -rf ./$(VENV_NAME)
+docker-run:
+	docker run -it --rm --name website_project_container -p 5000:5000 patryklaskowski/$(DOCKER_TAG):latest
+
+docker-publish:
+	docker tag $(DOCKER_TAG):latest patryklaskowski/$(DOCKER_TAG):latest
+	@echo "$(DOCKER_PASSWORD)" | docker login --username patryklaskowski --password-stdin
+	docker push patryklaskowski/$(DOCKER_TAG):latest
+	docker logout
+	# https://hub.docker.com/r/patryklaskowski/website_project
