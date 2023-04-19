@@ -18,6 +18,7 @@ docker-build:
 	docker build . --tag $(DOCKER_TAG):latest
 
 docker-run:
+	docker pull patryklaskowski/$(DOCKER_TAG):latest
 	docker run -it --rm --name website_project_container -p 5000:5000 patryklaskowski/$(DOCKER_TAG):latest
 
 docker-publish:
