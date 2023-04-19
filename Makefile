@@ -15,7 +15,7 @@ run:
 	python website_project/main.py
 
 docker-build:
-	docker build . --tag $(DOCKER_TAG):latest
+	docker build . --tag $(DOCKER_TAG):latest --file Dockerfile
 
 docker-run:
 	docker pull patryklaskowski/$(DOCKER_TAG):latest

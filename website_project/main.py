@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World Test Test Test! test-build-and-publish-docker-image-action-01</p>"
+    return "<p>Hello World!</p>"
 
 
 if __name__ == "__main__":
