@@ -18,8 +18,5 @@ RUN make install
 # Make port available to the world outside this container
 EXPOSE 5000
 
-# Define environment variable
-ENV DEBUG False
-
 # Run app.py when the container launches
 CMD ["python", "website_project/main.py"]
