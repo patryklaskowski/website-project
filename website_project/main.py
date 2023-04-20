@@ -32,12 +32,12 @@ class HealthResource(Resource):
 api.add_resource(
     HealthResource,
     f"/{API_PREFIX}/health",
-    f"/{API_PREFIX}/")
+    f"/{API_PREFIX}/",
+)
 
 
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=False,
     )

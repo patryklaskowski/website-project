@@ -18,9 +18,22 @@ run:
 docker-build:
 	docker build . --tag $(DOCKER_TAG):latest --file Dockerfile
 
+docker-run: docker-build
+	docker run \
+		-it --rm \
+		--name website_project_local \
+		-p 5000:5000 \
+		--env FLASK_DEBUG=false \
+		$(DOCKER_TAG):latest
+
 dockerhub-run:
 	docker pull patryklaskowski/$(DOCKER_TAG):latest
-	docker run -it --rm --name website_project_container -p 5000:5000 patryklaskowski/$(DOCKER_TAG):latest
+	docker run \
+		-it --rm \
+		--name website_project_dockerhub \
+		-p 5000:5000 \
+		--env FLASK_DEBUG=false \
+		patryklaskowski/$(DOCKER_TAG):latest
 
 docker-publish:
 	docker tag $(DOCKER_TAG):latest patryklaskowski/$(DOCKER_TAG):latest
@@ -34,4 +47,3 @@ test:
 
 docker-test: docker-build
 	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
-

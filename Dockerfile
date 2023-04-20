@@ -4,7 +4,8 @@ FROM python:3.9-alpine
 # Install required OS dependencies
 RUN apk update && \
     apk add bash && \
-    apk add --no-cache make
+    apk add make && \
+    apk add git
 
 # Set the working directory
 WORKDIR /app
@@ -17,9 +18,6 @@ RUN make install
 
 # Make port available to the world outside this container
 EXPOSE 5000
-
-# Define environment variable
-ENV DEBUG False
 
 # Run app.py when the container launches
 CMD ["python", "website_project/main.py"]
