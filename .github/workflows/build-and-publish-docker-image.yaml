@@ -1,5 +1,5 @@
 name: 🐳 Build and publish Docker image
-run-name: 🚀 Build and publish Docker image.
+run-name: 🚀 Build and publish Docker image triggered by `${{ github.event_name }}` event
 
 on:
   push:
