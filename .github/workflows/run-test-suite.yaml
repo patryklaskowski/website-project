@@ -1,11 +1,11 @@
 name: 👀 Run test suite
-run-name: ⏳ Execute tests triggered by ${{ github.event_name }} event on ${{ github.ref }} branch
+run-name: ⏳ Execute tests triggered by `${{ github.event_name }}` event
 
 on:
   push:
-    branches: [ "main", "trigger/run-test-suite*", "test-branch" ]
+    branches: [ "main", "trigger/run-test-suite*" ]
   pull_request:
-    branches: [ "main", "trigger/run-test-suite*", "test-branch" ]
+    branches: [ "main", "trigger/run-test-suite*" ]
 
 jobs:
   run-tests:
