@@ -3,9 +3,9 @@ run-name: ⏳ Execute tests triggered by ${{ github.event_name }} event on ${{ g
 
 on:
   push:
-    branches: [ "main", "trigger/run-test-suite*" ]
+    branches: [ "main", "trigger/run-test-suite*", "test-branch" ]
   pull_request:
-    branches: [ "main", "trigger/run-test-suite*" ]
+    branches: [ "main", "trigger/run-test-suite*", "test-branch" ]
 
 jobs:
   run-tests:
