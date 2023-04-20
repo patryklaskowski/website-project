@@ -1,0 +1,22 @@
+name: 👀 Run test suite
+run-name: ⏳ Execute tests triggered by `${{ github.event_name }}` event
+
+on:
+  push:
+    branches: [ "main", "trigger/run-test-suite*" ]
+  pull_request:
+    branches: [ "main", "trigger/run-test-suite*" ]
+
+jobs:
+  run-tests:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: make install
+
+    - name: Run tests
+      run: make test
