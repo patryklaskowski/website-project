@@ -5,7 +5,8 @@ VENV_NAME="env"
 venv:
 	rm -rf ./$(VENV_NAME)
 	python3 -m venv $(VENV_NAME)
-	source $(VENV_NAME)/bin/activate
+	source $(VENV_NAME)/bin/activate; \
+	make install
 
 install:
 	python -m pip install -U pip
@@ -17,7 +18,7 @@ run:
 docker-build:
 	docker build . --tag $(DOCKER_TAG):latest --file Dockerfile
 
-docker-run:
+dockerhub-run:
 	docker pull patryklaskowski/$(DOCKER_TAG):latest
 	docker run -it --rm --name website_project_container -p 5000:5000 patryklaskowski/$(DOCKER_TAG):latest
 
@@ -27,3 +28,6 @@ docker-publish:
 	docker push patryklaskowski/$(DOCKER_TAG):latest
 	docker logout
 	# https://hub.docker.com/r/patryklaskowski/website_project
+
+test:
+	python -m pytest -v
