@@ -3,9 +3,10 @@
 ---
 ## How to start
 
-- Run web server using `docker`. See [patryklaskowski/website_project](https://hub.docker.com/r/patryklaskowski/website_project) on DockerHub
+- Run web server the latest release using `docker`.
+  See [patryklaskowski/website_project](https://hub.docker.com/r/patryklaskowski/website_project) on DockerHub
    ```bash
-   make docker-run
+   make dockerhub-run
    ```
 
 ---
