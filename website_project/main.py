@@ -20,7 +20,7 @@ JSON = NewType("json", dict)
 def welcome_page(name="Stranger") -> HTML:
     LOG.info(f"{request.method} ")
 
-    return f"<p>Welcome {escape(name.capitalize())}</p>"
+    return f"<p>Welcome --changed-- {escape(name.capitalize())}</p>"
 
 
 class HealthResource(Resource):
