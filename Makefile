@@ -31,3 +31,7 @@ docker-publish:
 
 test:
 	python -m pytest -v
+
+docker-test: docker-build
+	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
+
