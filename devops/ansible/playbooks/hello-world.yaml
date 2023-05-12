@@ -1,0 +1,13 @@
+---
+- name: Hello World Playbook
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run hello world command
+      shell: echo "Hello, world!"
+    - name: Get current dir
+      shell: pwd
+      register: output
+    - name: Print the output
+      debug:
+        msg: "The command output is: {{ output.stdout }}"
