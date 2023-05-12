@@ -13,6 +13,7 @@ install:
 	python -m pip install -r requirements.txt
 
 run:
+	export FLASK_DEBUG=true && \
 	python website_project/main.py
 
 docker-build:
@@ -36,11 +37,11 @@ dockerhub-run:
 		patryklaskowski/$(DOCKER_TAG):latest
 
 docker-publish:
+	# DockerHub: https://hub.docker.com/r/patryklaskowski/website_project
 	docker tag $(DOCKER_TAG):latest patryklaskowski/$(DOCKER_TAG):latest
 	@echo "$(DOCKER_PASSWORD)" | docker login --username patryklaskowski --password-stdin
 	docker push patryklaskowski/$(DOCKER_TAG):latest
 	docker logout
-	# https://hub.docker.com/r/patryklaskowski/website_project
 
 test:
 	python -m pytest -v
