@@ -1,0 +1,60 @@
+---
+- name: "Run the app using Docker"
+  hosts: "all"
+  gather_facts: "no"
+  become: "true"
+
+  vars:
+    container_name: "website_project"
+    image_name: "website_project:latest"
+    project_git_repo: "https://github.com/patryklaskowski/website-project.git"
+    project_root_path: "~/website-project"
+
+  tasks:
+    - name: "Checkout repository"
+      git:
+        repo: "{{ project_git_repo }}"
+        dest: "{{ project_root_path }}"
+        version: "main"
+        update: "yes"
+
+    - name: "Get container info"
+      community.docker.docker_container_info:
+        name: "{{ container_name }}"
+      register: "container"
+
+    - name: "Kill existing container"
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        force_kill: "true"
+      when: "container.exists"
+
+    - name: "Remove existing container"
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        state: "absent"
+      when: "container.exists"
+
+    - name: "Remove image"
+      community.docker.docker_image:
+        state: "absent"
+        name: "{{ image_name }}"
+
+    - name: "Build Docker image"
+      community.docker.docker_image:
+        name: "{{ image_name }}"
+        build:
+          path: "{{ project_root_path }}"
+          dockerfile: "Dockerfile"
+        source: "build"
+        force_source: "true"
+
+    - name: "Start new Docker container"
+      community.docker.docker_container:
+        name: "{{ container_name }}"
+        image: "{{ image_name }}"
+        state: "started"
+        ports:
+          - "80:5000"
+        detach: "true"
+        restart_policy: "no"

@@ -4,39 +4,46 @@
 
 ## Create deployment server
 
-You can create EC2 instance on AWS. In case of AWC EC2 You need to have:
+You can create EC2 instance on AWS. In case of AWC EC2 You probably have:
 - [x] instance address: `<ubuntu@18.185.84.203>`
-- [x] private key for SSH connection: `<website-project-rsa.pem>`<br>
+- [x] private key for SSH connection: `<server_priv_rsa_key>`<br>
 
-> **Note**: Public pair of `<website-project-rsa>` private key is in the server's `~/.ssh/authorized_keys` already,<br>
-> which makes it possible to connect via ssh
+> **Note**: Public pair for `<server_priv_rsa_key>` private key is added to the server's `~/.ssh/authorized_keys`<br>
+> already, which makes it possible to connect via ssh.
 
-> **Note**: Make sure ssh and http(s) traffic is enabled  e.g. 0.0.0.0/0.<br>
-> Rules with source of 0.0.0.0/0 allow all IP addresses to access your instance.
+> **Note**: Make sure ssh and http(s) traffic is enabled to deployment server.<br>
+> Rules with source `0.0.0.0/0` allow all IP addresses to access your instance.
 
 ## Prepare dedicated RSA key for Ansible deployment to be able to connect to deployment server via SSH
 
+Create RSA key pair:
+```bash
+ssh-keygen -t rsa -P "" -f ./deployment-rsa
+```
+Above command will create two files:
+1. `./deployment-rsa`: private RSA key. *It needs to stay secret*. Upload this key where it will be available<br>
+for deployment process e.g. add it to GitHub secrets in order to use it during automated GitHub workflow.<br>
+The purpose of having that private key is to authorize during ssh connection between deployment process and actual<br>
+deployment server.
+2. `./deployment-rsa.pub`: public RSA key. It's no secret. Server that keeps it's content in `~/.ssh/authorized_keys`,<br>
+allows anyone that has its private companion `./deployment-rsa` to connect via ssh.
+
+Send `./deployment-rsa.pub` public RSA key to deployment server:
+```bash
+chmod 400 ./server_priv_rsa_key
+scp -i "./server_priv_rsa_key" -o StrictHostKeyChecking=no ./deployment-rsa.pub ubuntu@18.185.84.203:/home/ubuntu
+```
+
 Connect to deployment server:
 ```bash
-chmod 400 ./website-project-rsa.pem
-ssh -i "./website-project-rsa.pem" -o StrictHostKeyChecking=no ubuntu@18.185.84.203  # Connect to deployment server
+ssh -i "./server_priv_rsa_key" -o StrictHostKeyChecking=no ubuntu@18.185.84.203
 ```
 
-On deployment server create RSA key pair for deployment purposes specifically:
+Add `<deployment-rsa.pub>` public RSA key to deployment server's `~/.ssh/authorized_keys`.<br>
+This step will make SSH connection possible using corresponding `<deployment-rsa>` RSA private key.
 ```bash
-ssh-keygen -t rsa -P "" -f ~/.ssh/deployment-rsa
-```
-
-Add `<deployment-rsa.pub>` public key to deployment server's `~/.ssh/authorized_keys`.<br>
-This step will make SSH connection possible using corresponding `<deployment-rsa>` private key.
-```bash
+sudo mv /home/ubuntu/deployment-rsa.pub ~/.ssh/
 cat ~/.ssh/deployment-rsa.pub >> ~/.ssh/authorized_keys
-```
-
-Download `<deployment-rsa>` private key from deployment server to your local server:
-```bash
-exit  # Exit AWS EC2 server ssh connection
-scp -i "./website-project-rsa.pem" -o StrictHostKeyChecking=no ubuntu@18.185.84.203:~/.ssh/deployment-rsa .
 ```
 
 It should be possible to connect to deployment server using recently created deployment RSA key from your local server:
@@ -104,6 +111,12 @@ apt update && \
 DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends tzdata && \
 apt install ansible -y && \
 ansible --version
+```
+
+Install extra Ansible plugins
+```bash
+ansible-galaxy --version
+ansible-galaxy collection install community.docker
 ```
 
 Run `hello-world.yaml` playbook on `<ubuntu@18.185.84.203>` deployment server

@@ -24,7 +24,7 @@ jobs:
         sudo mv ./id_rsa ~/.ssh/id_rsa
         sudo chmod 400 ~/.ssh/id_rsa
 
-    - name: Run Ansible playbook
-      run: ansible-playbook -i "${{ secrets.DEPLOY_SERVER }}," ./devops/ansible/playbooks/hello-world.yaml
+    - name: Deploy the app to server
+      run: ansible-playbook -i "${{ secrets.DEPLOY_SERVER_HOST }}," ./devops/ansible/playbooks/run-with-docker.yaml
       env:
         ANSIBLE_HOST_KEY_CHECKING: false
