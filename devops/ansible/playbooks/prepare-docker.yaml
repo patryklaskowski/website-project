@@ -1,0 +1,24 @@
+---
+- name: Prepare Docker
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Check if Docker is installed
+      command: docker --version
+      ignore_errors: yes
+      register: docker_version_output
+
+    - name: Install Docker if it is not installed
+      become: true
+      apt:
+        name: docker.io
+        state: present
+      when: docker_version_output.rc != 0
+
+    - name: Check Docker version
+      command: docker --version
+      register: docker_version_output
+
+    - name: Print Docker version
+      debug:
+        msg: "{{ docker_version_output.stdout }}"

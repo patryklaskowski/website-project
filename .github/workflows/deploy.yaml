@@ -1,0 +1,27 @@
+name: Deployment workflow
+run-name: Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Inject RSA private key to enable SSH connection with deployment server
+      run: |
+        echo "${{ secrets.RSA_DEPLOY_PRIV_BASE64_ENC }}" | base64 --decode > ./id_rsa
+
+    - name: Prepare RSA private key
+      run: |
+        sudo mkdir -p ~/.ssh
+        sudo mv ./id_rsa ~/.ssh/id_rsa
+        sudo chmod 400 ~/.ssh/id_rsa
+
+    - name: Deploy the app to server
+      run: ansible-playbook -i "${{ secrets.DEPLOY_SERVER_HOST }}," ./devops/ansible/playbooks/run-with-docker.yaml
+      env:
+        ANSIBLE_HOST_KEY_CHECKING: false
