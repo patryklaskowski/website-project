@@ -1,6 +1,5 @@
 import logging
-from markupsafe import escape
-from flask import Flask, request
+from flask import Flask, render_template
 from flask_restful import Resource, Api
 from typing import NewType
 
@@ -16,11 +15,8 @@ JSON = NewType("json", dict)
 
 
 @app.route("/", methods=['GET'])
-@app.route("/<name>", methods=['GET'])
-def welcome_page(name="Stranger") -> HTML:
-    LOG.info(f"{request.method} ")
-
-    return f"<p>Welcome {escape(name.capitalize())}</p>"
+def welcome_page() -> HTML:
+    return render_template("welcome.html")
 
 
 class HealthResource(Resource):
