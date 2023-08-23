@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block style %}
+    .hidden {
+        display: none;
+    }
+{% endblock %}
+
+{% block body %}
+
+    <div class="text-center">
+        <h1>Activity form</h1>
+    </div>
+
+    {# Create margins #}
+    <div class="row">
+        <div class="col-2"></div>
+
+        {# Main column (center) #}
+        <div class="col-8">
+
+            {# Form #}
+            <form method="post">
+                <fieldset>
+
+                    <legend>Add activity</legend>
+
+                    {# Dropdown menu #}
+                    <div class="mb-3">
+                        <label for="selectActivity" class="form-label">Select activity:</label><br>
+                        <select id="selectActivity" class="form-select" name="name">
+                            <option disabled selected value="empty"> -- Select Activity -- </option>
+                            <option value="swimming">Swimming</option>
+                            <option value="running">Running</option>
+                        </select>
+                    </div>
+
+                    {# Swimming #}
+                    <div class="hidden" id="swimming_form">
+                        <div class="mb-3">
+                            <label for="swimming_date" class="form-label">Date</label>
+                            <input id="swimming_date" type="date" class="form-control" name="swimming_date" min="2023-01-01" max="2025-01-01" value="2023-08-23" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="swimming_distance" class="form-label">Distance [km]</label>
+                            <input id="swimming_distance" type="number" class="form-control" name="swimming_distance" min="0" max="1000" step="0.1" value="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="swimming_time_total" class="form-label" aria-describedby="swimming_time_total_converted">Time Total [min]</label>
+                            <div class="input-group">
+                                <input id="swimming_time_total" type="number" class="form-control" name="running_time_total" min="0" max="1000" step="1" value="0" required>
+                                <span class="input-group-text" id="swimming_time_total_converted">0:00</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="swimming_description" class="form-label">Description (optional)</label>
+                            <input id="swimming_description" type="text" class="form-control" name="swimming_description">
+                        </div>
+                    </div>
+
+                    {# Running #}
+                    <div class="mb-3 hidden" id="running_form">
+                        <div class="mb-3">
+                            <label for="running_date" class="form-label">Date</label>
+                            <input id="running_date" type="date" class="form-control" name="running_date" min="2023-01-01" max="2025-01-01" value="2023-08-23" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="running_distance" class="form-label">Distance [km]</label>
+                            <input id="running_distance" type="number" class="form-control" name="running_distance" min="0" max="1000" step="0.1" value="0" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="running_time_total" class="form-label" aria-describedby="running_time_total_converted">Time Total [min]</label>
+                            <div class="input-group">
+                                <input id="running_time_total" type="number" class="form-control" name="running_time_total" min="0" max="1000" step="1" value="0" required>
+                                <span class="input-group-text" id="running_time_total_converted">0:00</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="running_description" class="form-label">Description (optional)</label>
+                            <input id="running_description" type="text" class="form-control" name="running_description">
+                        </div>
+                    </div>
+
+                    {# Submit #}
+                    <div class="mb-3 d-grid gap-2">
+                        <input type="submit" class="btn btn-success" value="Submit">
+                    </div>
+
+                </fieldset>
+            </form>
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <script>
+        {# Dropdown activity list #}
+        const selectActivityForm = document.getElementById("selectActivity");
+        const hideMeMarker = "hidden";  // Marker making elements disappear
+        const activities = [];
+
+        activities.push("swimming");
+        activities.push("running");
+
+        const disableElements = elements => {
+            for (const element of elements) element.disabled = true;
+        };
+        const enableElements = elements => {
+            for (const element of elements) element.disabled = false;
+        };
+
+        selectActivityForm.addEventListener('change', (event) => {
+            const selectedActivity = selectActivityForm.value;
+            console.log("Selected activity: " + selectedActivity);
+
+            for (const activity of activities) {
+                const activityFormId = `${activity}_form`;
+                const activityForm = document.getElementById(activityFormId);
+
+                if (activity == selectedActivity) {
+                    // Make visible
+                    activityForm.classList.remove(hideMeMarker);
+                    enableElements(activityForm.querySelectorAll("input"));
+                } else {
+                    // Hide
+                    activityForm.classList.add(hideMeMarker);
+                    disableElements(activityForm.querySelectorAll("input"));
+                };
+            };
+        });
+
+        {# Handle time toal conversion for activities #}
+        const minutesConvert = minutes => {
+            const h = `${Math.floor(minutes/60)}`.padStart(2, "0");
+            const min = `${minutes%60}`.padStart(2, "0");
+            return `${h} h ${min} min`;
+        }
+
+        for (const activity of activities) {
+            // Elements need to meet naming convention in order to work
+            const activityTimeTotalInput = document.getElementById(`${activity}_time_total`);
+            const activityTimeTotalConverted = document.getElementById(`${activity}_time_total_converted`);
+
+            if (! activityTimeTotalConverted) continue;  // Ignore if not exist
+
+            // Set initial value and on-change action
+            activityTimeTotalConverted.innerText = minutesConvert(0);
+            activityTimeTotalInput.addEventListener('change', (event) => {
+                activityTimeTotalConverted.innerText = minutesConvert(activityTimeTotalInput.value);
+            });
+        }
+    </script>
+{% endblock %}
