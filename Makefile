@@ -1,7 +1,8 @@
 DOCKER_TAG="website_project"
 
 init:
-	curl -sSL https://install.python-poetry.org | python3 - --version "1.6.1"
+	curl -sSL https://install.python-poetry.org | python3 - --version "1.1.5"
+	python3 -m venv .venv
 	poetry install
 
 run:

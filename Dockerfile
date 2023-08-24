@@ -1,12 +1,11 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-alpine
+FROM python:3.8-alpine
 
 # Install required OS dependencies
 RUN apk update && \
     apk add bash && \
-    apk add make && \
-    apk add git && \
-    apk add curl
+    apk add gcc libressl-dev musl-dev libffi-dev && \
+    apk add make git curl
 
 # To add poetry bin to path
 ENV PATH="/root/.local/bin:$PATH"
