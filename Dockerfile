@@ -5,7 +5,11 @@ FROM python:3.9-alpine
 RUN apk update && \
     apk add bash && \
     apk add make && \
-    apk add git
+    apk add git && \
+    apk add curl
+
+# To add poetry bin to path
+ENV PATH="/root/.local/bin:$PATH"
 
 # Set the working directory
 WORKDIR /app
@@ -14,7 +18,7 @@ WORKDIR /app
 COPY . /app
 
 # Perform software installation
-RUN make install
+RUN make init
 
 # Make port available to the world outside this container
 EXPOSE 5000

@@ -1,20 +1,12 @@
 DOCKER_TAG="website_project"
-VENV_NAME="env"
 
-
-venv:
-	rm -rf ./$(VENV_NAME)
-	python3 -m venv $(VENV_NAME)
-	source $(VENV_NAME)/bin/activate; \
-	make install
-
-install:
-	python -m pip install -U pip
-	python -m pip install -r requirements.txt
+init:
+	curl -sSL https://install.python-poetry.org | python3 - --version "1.6.1"
+	poetry install
 
 run:
 	export FLASK_DEBUG=true && \
-	python website_project/main.py
+	poetry run python website_project/main.py
 
 docker-build:
 	docker build . --tag $(DOCKER_TAG):latest --file Dockerfile
@@ -44,7 +36,7 @@ docker-publish:
 	docker logout
 
 test:
-	python -m pytest -v
+	poetry run python -m pytest -v
 
 docker-test: docker-build
 	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
