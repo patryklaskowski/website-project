@@ -1,5 +1,5 @@
 DOCKER_TAG="website_project"
-VENV_NAME="env"
+VENV_NAME=".venv"
 
 
 venv:
