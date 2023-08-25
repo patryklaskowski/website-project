@@ -1,6 +1,14 @@
 .git/
+
 .idea/
-.pytest_cache
+
 env/
 venv/
+.venv/
+
+.pytest_cache
+__pycache__
+
 *.log
+
+.env

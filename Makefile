@@ -1,5 +1,5 @@
 DOCKER_TAG="website_project"
-VENV_NAME="env"
+VENV_NAME=".venv"
 
 
 venv:
@@ -11,6 +11,7 @@ venv:
 install:
 	python -m pip install -U pip
 	python -m pip install -r requirements.txt
+	python -m pip install -e .
 
 run:
 	export FLASK_DEBUG=true && \
