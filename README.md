@@ -1,6 +1,13 @@
 # Website Project
 
 ---
+## Requirements
+
+- Set following environmental variables:
+  - `MONGODB_DB_NAME` e.g. "website_project_database"
+  - `MONGODB_USERNAME` e.g. "pl"
+  - `MONGODB_PASSWORD` e.g. "developer"
+---
 ## How to start
 
 - Run web server the latest release using `docker`.
