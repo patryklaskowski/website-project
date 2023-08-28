@@ -58,3 +58,7 @@
           - "80:5000"
         detach: "true"
         restart_policy: "no"
+        env:
+          MONGODB_DB_NAME: "{{ lookup('ansible.builtin.env', 'MONGODB_DB_NAME') }}"
+          MONGODB_USERNAME: "{{ lookup('ansible.builtin.env', 'MONGODB_USERNAME') }}"
+          MONGODB_PASSWORD: "{{ lookup('ansible.builtin.env', 'MONGODB_PASSWORD') }}"
