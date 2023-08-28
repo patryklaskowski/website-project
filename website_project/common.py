@@ -3,7 +3,7 @@ import yaml
 import re
 import os
 
-ROOT_DIR: str = re.search(r'(^.+website-project)', __file__).group(1)
+ROOT_DIR: str = os.path.split(re.search(r'(^.+website_project)', __file__).group(1))[0]
 
 
 def get_config() -> Dict:

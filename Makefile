@@ -26,6 +26,7 @@ docker-run: docker-build
 		--name website_project_local \
 		-p 5000:5000 \
 		--env FLASK_DEBUG=false \
+		--env-file .env \
 		$(DOCKER_TAG):latest
 
 dockerhub-run:

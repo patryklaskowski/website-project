@@ -15,7 +15,8 @@ class MongoDatabase:
                 os.environ['MONGODB_USERNAME'],
                 os.environ['MONGODB_PASSWORD']
             ),
-            server_api=ServerApi('1'))
+            server_api=ServerApi('1'),
+        )
         self.db = self.client[self.db_name]
 
     @staticmethod
