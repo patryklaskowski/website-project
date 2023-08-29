@@ -19,4 +19,6 @@ jobs:
       run: make install
 
     - name: Run tests
+      env:
+        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       run: make test
