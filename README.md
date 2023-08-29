@@ -1,6 +1,12 @@
 # Website Project
 
 ---
+## Requirements
+
+- Environment variables:
+  - `MONGODB_PASSWORD` e.g. "developer"
+
+---
 ## How to start
 
 - Run web server the latest release using `docker`.

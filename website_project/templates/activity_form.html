@@ -19,6 +19,13 @@
         {# Main column (center) #}
         <div class="col-8">
 
+            {# Alert #}
+            {% if alert %}
+                <div class="alert alert-{{ alert.type }}" role="alert">
+                    {{ alert.msg }}
+                </div>
+            {% endif %}
+
             {# Form #}
             <form method="post">
                 <fieldset>
@@ -28,7 +35,7 @@
                     {# Dropdown menu #}
                     <div class="mb-3">
                         <label for="selectActivity" class="form-label">Select activity:</label><br>
-                        <select id="selectActivity" class="form-select" name="name">
+                        <select id="selectActivity" class="form-select" name="activity">
                             <option disabled selected value="empty"> -- Select Activity -- </option>
                             <option value="swimming">Swimming</option>
                             <option value="running">Running</option>
@@ -48,7 +55,7 @@
                         <div class="mb-3">
                             <label for="swimming_time_total" class="form-label" aria-describedby="swimming_time_total_converted">Time Total [min]</label>
                             <div class="input-group">
-                                <input id="swimming_time_total" type="number" class="form-control" name="running_time_total" min="0" max="1000" step="1" placeholder="0" required>
+                                <input id="swimming_time_total" type="number" class="form-control" name="swimming_time_total" min="0" max="1000" step="1" placeholder="0" required>
                                 <span class="input-group-text" id="swimming_time_total_converted">0:00</span>
                             </div>
                         </div>

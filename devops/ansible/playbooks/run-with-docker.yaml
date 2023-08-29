@@ -58,3 +58,5 @@
           - "80:5000"
         detach: "true"
         restart_policy: "no"
+        env:
+          MONGODB_PASSWORD: "{{ lookup('ansible.builtin.env', 'MONGODB_PASSWORD') }}"
