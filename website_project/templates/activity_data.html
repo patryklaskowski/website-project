@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block style %}
+    .hidden {
+        display: none;
+    }
+{% endblock %}
+
+{% block body %}
+
+    <div class="text-center">
+        <h1>Activity data</h1>
+    </div>
+
+    {# Create margins #}
+    <div class="row">
+        <div class="col-2"></div>
+
+        {# Main column (center) #}
+        <div class="col-8">
+
+
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <script>
+        {# Dropdown activity list #}
+        const selectActivityForm = document.getElementById("selectActivity");
+        const hideMeMarker = "hidden";  // Marker making elements disappear
+        const activities = [];
+
+        activities.push("swimming");
+        activities.push("running");
+
+        const disableElements = elements => {
+            for (const element of elements) element.disabled = true;
+        };
+        const enableElements = elements => {
+            for (const element of elements) element.disabled = false;
+        };
+
+        selectActivityForm.addEventListener('change', (event) => {
+            const selectedActivity = selectActivityForm.value;
+            console.log("Selected activity: " + selectedActivity);
+
+            for (const activity of activities) {
+                const activityFormId = `${activity}_form`;
+                const activityForm = document.getElementById(activityFormId);
+
+                if (activity == selectedActivity) {
+                    // Make visible
+                    activityForm.classList.remove(hideMeMarker);
+                    enableElements(activityForm.querySelectorAll("input"));
+                } else {
+                    // Hide
+                    activityForm.classList.add(hideMeMarker);
+                    disableElements(activityForm.querySelectorAll("input"));
+                };
+            };
+        });
+
+        {# Handle time toal conversion for activities #}
+        const minutesConvert = minutes => {
+            const h = `${Math.floor(minutes/60)}`.padStart(2, "0");
+            const min = `${minutes%60}`.padStart(2, "0");
+            return `${h} h ${min} min`;
+        }
+
+        for (const activity of activities) {
+            // Elements need to meet naming convention in order to work
+            const activityTimeTotalInput = document.getElementById(`${activity}_time_total`);
+            const activityTimeTotalConverted = document.getElementById(`${activity}_time_total_converted`);
+
+            if (! activityTimeTotalConverted) continue;  // Ignore if not exist
+
+            // Set initial value and on-change action
+            activityTimeTotalConverted.innerText = minutesConvert(0);
+            activityTimeTotalInput.addEventListener('change', (event) => {
+                activityTimeTotalConverted.innerText = minutesConvert(activityTimeTotalInput.value);
+            });
+        }
+    </script>
+{% endblock %}

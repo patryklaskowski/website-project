@@ -50,6 +50,14 @@ def activity_form() -> str:
     return render_template("activity_form.html", alert=alert)
 
 
+@app.route("/data", methods=['GET'])
+def activity_data() -> str:
+
+
+    return render_template("activity_data.html", activity_data={})
+
+
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
