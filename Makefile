@@ -1,5 +1,5 @@
 DOCKER_TAG="website_project"
-VENV_NAME="env"
+VENV_NAME=".venv"
 
 
 venv:
@@ -11,6 +11,7 @@ venv:
 install:
 	python -m pip install -U pip
 	python -m pip install -r requirements.txt
+	python -m pip install -e .
 
 run:
 	export FLASK_DEBUG=true && \
@@ -25,6 +26,7 @@ docker-run: docker-build
 		--name website_project_local \
 		-p 5000:5000 \
 		--env FLASK_DEBUG=false \
+		--env-file .env \
 		$(DOCKER_TAG):latest
 
 dockerhub-run:
@@ -48,3 +50,6 @@ test:
 
 docker-test: docker-build
 	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
+
+clean:
+	rm -rf *.egg-info .pytest_cache

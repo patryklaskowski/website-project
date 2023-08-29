@@ -3,15 +3,13 @@ FROM python:3.9-alpine
 
 # Install required OS dependencies
 RUN apk update && \
-    apk add bash && \
-    apk add make && \
-    apk add git
+    apk add bash make git
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /website_project
 
 # Copy the current directory contents into the container at /app
-COPY . /app
+COPY . /website_project
 
 # Perform software installation
 RUN make install

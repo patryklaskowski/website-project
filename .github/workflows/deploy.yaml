@@ -25,3 +25,6 @@ jobs:
       run: ansible-playbook -i "${{ secrets.DEPLOY_SERVER_HOST }}," ./devops/ansible/playbooks/run-with-docker.yaml
       env:
         ANSIBLE_HOST_KEY_CHECKING: false
+        MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
+        MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
