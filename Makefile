@@ -50,3 +50,6 @@ test:
 
 docker-test: docker-build
 	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
+
+clean:
+	rm -rf *.egg-info .pytest_cache

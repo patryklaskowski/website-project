@@ -1,22 +1,21 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from typing import Dict
+from typing import Dict, Optional
 import os
 
 
-class MongoDatabase:
-    def __init__(self) -> None:
-        self.assert_requirements()
+class MongoDb:
+    def __init__(
+            self,
+            db_name: Optional[str] = None,
+            username: Optional[str] = None,
+    ) -> None:
 
-        self.db_name = os.environ["MONGODB_DB_NAME"]
+        self.db_name = db_name if db_name is not None else os.environ["MONGODB_DB_NAME"]
+        self.username = username if username is not None else os.environ["MONGODB_USERNAME"]
+        self.uri = self.create_uri(self.username, os.environ["MONGODB_PASSWORD"])
 
-        self.client = MongoClient(
-            self.create_uri(
-                os.environ['MONGODB_USERNAME'],
-                os.environ['MONGODB_PASSWORD']
-            ),
-            server_api=ServerApi('1'),
-        )
+        self.client = MongoClient(self.uri, server_api=ServerApi('1'))
         self.db = self.client[self.db_name]
 
     @staticmethod
@@ -33,12 +32,3 @@ class MongoDatabase:
         _id = collection.insert_one(data)
 
         return _id.inserted_id
-
-    def read_all(self, collection_name: str) -> Dict:
-        return {}
-
-    @staticmethod
-    def assert_requirements() -> None:
-        _required_envs = ("MONGODB_DB_NAME", "MONGODB_USERNAME", "MONGODB_PASSWORD")
-        assert all(env_var in os.environ for env_var in _required_envs), \
-            f"All required env variables have to be defined: {_required_envs}"

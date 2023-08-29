@@ -1,0 +1,3 @@
+mongodb:
+  db_name: website_project_database
+  username: patryklaskowski

@@ -16,20 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Install dependencies first
-      env:
-        MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
-        MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
-        MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-        FOO: "xxxxxxx"
-      run: echo "$MY_ENV_VARIABLE , $MONGODB_PASSWORD , $FOO"
-
     - name: Install dependencies
       run: make install
 
     - name: Run tests
       env:
-        MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
-        MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
         MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       run: make test

@@ -5,13 +5,17 @@ from flask import Flask, render_template, request
 
 from website_project.activity import read_activity_specific_data
 from website_project.common import get_config
-from website_project.database.driver import MongoDatabase
+from website_project.database.driver import MongoDb
 
 load_dotenv()
 
-CONFIG = get_config()
+config = get_config()
+db = MongoDb(
+    db_name=config["mongodb"]["db_name"],
+    username=config["mongodb"]["username"],
+)
+
 app = Flask(__name__)
-db = MongoDatabase()
 
 
 @dataclass
@@ -38,7 +42,9 @@ def activity_form() -> str:
     activity_data = read_activity_specific_data(activity, form_data)
     db.save_record(collection_name=activity, data=activity_data)
 
-    return render_template("activity_form.html", alert=Alert("success", "Record added successfully"))
+    return render_template(
+        "activity_form.html",
+        alert=Alert("success", f"Record added successfully."))
 
 
 if __name__ == "__main__":
