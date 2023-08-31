@@ -1,9 +1,9 @@
 # Use an official Python runtime as a parent image
-FROM python:3.9-alpine
+FROM python:3.9
 
 # Install required OS dependencies
-RUN apk update && \
-    apk add bash make git
+RUN apt-get update && \
+    apt-get install -y bash make git
 
 # Set the working directory
 WORKDIR /website_project

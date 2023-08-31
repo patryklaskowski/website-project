@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block style %}
+    .hidden {
+        display: none;
+    }
+{% endblock %}
+
+{% block body %}
+
+    <div class="text-center">
+        <h1>Activity data</h1>
+    </div>
+
+
+    {# Create margins #}
+    <div class="row">
+        <div class="col-2"></div>
+
+        {# Main column (center) #}
+        <div class="col-8">
+
+            {# Dropdown menu #}
+            <div class="mb-3">
+                <label for="selectActivity" class="form-label">Select activity:</label><br>
+                <select id="selectActivity" class="form-select" name="activity">
+                    <option disabled selected value="empty"> -- Select Activity -- </option>
+                    {% for data in all_data %}
+                        <option value="{{ data.activity }}">{{ data.activity|title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            {% for data in all_data %}
+                {# Table for each activity #}
+                <table class="hidden table table-striped" id="{{ data.activity }}_table">
+
+                    {# Populate header #}
+                    <thead>
+                        <tr>
+                            {% for column_name in data.columns %}
+                                <th scope="col">{{ column_name }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+
+                    {# Populate body #}
+                    <tbody>
+                        {% for row in data.rows %}
+                            <tr>
+                                {% for value in row %}
+                                    <td>{{ value }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+            {% endfor %}
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <script>
+        {# Dropdown activity list #}
+        const selectActivityForm = document.getElementById("selectActivity");
+        const hideMeMarker = "hidden";  // Marker making elements disappear
+        const activities = [];
+
+        {% for data in all_data %}
+            activities.push("{{ data.activity }}");
+        {% endfor %}
+
+        selectActivityForm.addEventListener('change', (event) => {
+            const selectedActivity = selectActivityForm.value;
+            console.log("Selected activity: " + selectedActivity);
+
+            for (const activity of activities) {
+                const activityFormId = `${activity}_table`;
+                const activityForm = document.getElementById(activityFormId);
+
+                if (activity == selectedActivity) {
+                    // Make visible
+                    activityForm.classList.remove(hideMeMarker);
+                } else {
+                    // Hide
+                    activityForm.classList.add(hideMeMarker);
+                };
+            };
+        });
+    </script>
+{% endblock %}

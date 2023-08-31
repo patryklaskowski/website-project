@@ -1,7 +1,8 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple, Iterable
 import os
+import pandas as pd
 
 
 class MongoDb:
@@ -32,3 +33,14 @@ class MongoDb:
         _id = collection.insert_one(data)
 
         return _id.inserted_id
+
+    def read_all(self, collection_name: str, columns: Optional[Iterable[str]] = None) -> pd.DataFrame:
+        columns = set([] if columns is None else columns)
+        columns = {col: 1 for col in columns}
+        columns["_id"] = 0  # Don't show id
+
+        collection = self.db[collection_name]
+
+        cursor = collection.find({}, projection=columns)
+
+        return pd.DataFrame(list(cursor))
