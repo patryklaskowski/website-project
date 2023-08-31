@@ -1,4 +1,5 @@
-schema = ["activity", "date", "description", "distance", "time_total"]
+name = "swimming"
+schema = ["date", "distance", "time_total", "description", ]
 
 
 def read_swimming_data(data):
