@@ -41,7 +41,7 @@ test:
 	python -m pytest -v
 
 docker-test: docker-build
-	docker run -it --rm --name website_project_test $(DOCKER_TAG):latest make test
+	docker run -it --rm --name website_project_test --env-file .env $(DOCKER_TAG):latest make test
 
 clean:
 	rm -rf *.egg-info .pytest_cache
