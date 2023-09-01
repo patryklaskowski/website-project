@@ -8,9 +8,7 @@
 
 {% block body %}
 
-    <div class="text-center">
-        <h1>Activity form</h1>
-    </div>
+    {# <div class="text-center"><h1>Activity form</h1></div> #}
 
     {# Create margins #}
     <div class="row">
@@ -30,11 +28,11 @@
             <form method="post">
                 <fieldset>
 
-                    <legend>Add activity</legend>
+                    <legend>Add activity data:</legend>
 
                     {# Dropdown menu #}
                     <div class="mb-3">
-                        <label for="selectActivity" class="form-label">Select activity:</label><br>
+                        {# <label for="selectActivity" class="form-label">Select activity to add:</label><br> #}
                         <select id="selectActivity" class="form-select" name="activity">
                             <option disabled selected value="empty"> -- Select Activity -- </option>
                             <option value="swimming">Swimming</option>
