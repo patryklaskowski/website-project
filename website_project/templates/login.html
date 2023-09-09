@@ -1,29 +1,26 @@
-{% extends "base.html" %}
+{% extends "base_with_margin.html" %}
 
-{% block body %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
-        <form method="POST" action="/login">
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                </div>
-            </div>
+{% block middle_column %}
+    <form method="post" action="{{ url_for('login') }}">
+            <fieldset>
 
-            <div class="field">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                <legend>Login:</legend>
+
+                {# Fields #}
+                <div>
+                    <div class="mb-3">
+                        <input class="form-control" type="text" name="username" placeholder="Username" autofocus="" required>
+                    </div>
+                    <div class="mb-3">
+                        <input class="form-control" type="password" name="password" placeholder="Password" required>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <label class="checkbox">
-                    <input type="checkbox" name="remember">
-                    Remember me
-                </label>
-            </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+
+                {# Submit #}
+                <div class="mb-3 d-grid gap-2">
+                    <input type="submit" class="btn btn-success" value="Submit">
+                </div>
+
+            </fieldset>
         </form>
-    </div>
-</div>
 {% endblock %}
