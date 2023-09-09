@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block body %}
+    {# Create margins #}
+    <div class="row">
+        <div class="col-2"></div>
+
+        {# Main column (center) #}
+        <div class="col-8">
+
+            {% block middle_column %}
+            {% endblock %}
+
+        </div>
+        <div class="col-2"></div>
+    </div>
+{% endblock %}

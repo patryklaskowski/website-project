@@ -48,11 +48,26 @@
                     <li class="nav-item"><a href="{{ url_for('activity_form') }}" class="btn btn-outline-light text-body-secondary" aria-current="page">Add activity</a></li>
                     <li class="nav-item"><a href="{{ url_for('activity_data') }}" class="btn btn-dark text-body-secondary" aria-current="page">Data</a></li>
                     <li class="nav-item"><a href="{{ url_for('home_page') }}" class="btn btn-dark text-body-secondary">Home</a></li>
+                    <li class="nav-item"><a href="{{ url_for('login') }}" class="btn btn-dark text-body-secondary">Login</a></li>
+                    <li class="nav-item"><a href="{{ url_for('signup') }}" class="btn btn-dark text-body-secondary">New Account</a></li>
+                    <li class="nav-item"><a href="{{ url_for('logout') }}" class="btn btn-dark text-body-secondary">Logout</a></li>
+                    <li class="nav-item"><a href="{{ url_for('profile') }}" class="btn btn-dark text-body-secondary">Profile</a></li>
                 </ul>
             </header>
 
-        {# Body #}
+            {# Alert #}
+            {% if alert %}
+                <div class="alert alert-{{ alert.type }}" role="alert">
+                    {{ alert.msg | safe }}
+                </div>
+            {% endif %}
+
+            {# Body #}
             {% block body %}
+            {% endblock %}
+
+            {# Script #}
+            {% block script %}
             {% endblock %}
         </div>
     </div>
@@ -63,6 +78,13 @@
             <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top border-success">
                 <div class="col-md-4 d-flex align-items-center">
                     <span class="mb-3 mb-md-0 text-body-secondary">2023 Patryk Jacek Laskowski</span>
+                </div>
+                <div class="d-flex align-items-left">
+                    {% if current_user.is_authenticated %}
+                        <span class="mb-3 mb-md-0 text-body-secondary">@{{ current_user.username }}</span>
+                    {% else %}
+                        <span class="mb-3 mb-md-0 text-body-secondary">@unauthorized</span>
+                    {% endif %}
                 </div>
 
                 <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">

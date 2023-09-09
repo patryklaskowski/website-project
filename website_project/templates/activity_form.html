@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_with_margin.html" %}
 
 {% block style %}
     .hidden {
@@ -6,7 +6,7 @@
     }
 {% endblock %}
 
-{% block body %}
+{% block middle_column %}
 
     {# <div class="text-center"><h1>Activity form</h1></div> #}
 
@@ -16,13 +16,6 @@
 
         {# Main column (center) #}
         <div class="col-8">
-
-            {# Alert #}
-            {% if alert %}
-                <div class="alert alert-{{ alert.type }}" role="alert">
-                    {{ alert.msg }}
-                </div>
-            {% endif %}
 
             {# Form #}
             <form method="post">
@@ -98,6 +91,9 @@
         <div class="col-2"></div>
     </div>
 
+{% endblock %}
+
+{% block script %}
     <script>
         {# Dropdown activity list #}
         const selectActivityForm = document.getElementById("selectActivity");
