@@ -4,17 +4,16 @@ Provides pages:
 - login
 - logout
 - signup
-
+- profile
 """
 
 from datetime import timedelta
-from typing import Optional
 
-from flask import Flask, Blueprint, render_template, session, request, redirect, url_for, Response
-from flask_login import LoginManager, login_user, current_user, logout_user
+from flask import Blueprint, render_template, session, request, redirect, url_for
+from flask_login import login_user, current_user, logout_user
 
-from website_project.user import find_user_by_username, User, RegisteredUser, user_exists, GuestUser, register_user
-from website_project.common import Cookie, Alert, AlertType, link_to
+from website_project.user import find_user_by_username, RegisteredUser, user_exists, register_user
+from website_project.common import Cookie, Alert, AlertType
 
 auth = Blueprint(
     name='auth',
@@ -47,7 +46,7 @@ def login():
         if session.get(Cookie.REDIRECT_BACK, None):
             return redirect(url_for(session.pop(Cookie.REDIRECT_BACK)))
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('auth.profile'))
 
 
 @auth.route('/signup', methods=["POST", "GET"])
@@ -76,13 +75,22 @@ def signup():
         if not current_user.is_authenticated:
             login_user(user, remember=True, duration=timedelta(weeks=1))
 
-        return redirect(url_for('profile'))
+        return redirect(url_for('auth.profile'))
 
 
 @auth.route('/logout', methods=["GET"])
 def logout():
     if current_user.is_authenticated:
+        session[Cookie.ALERT] = Alert(AlertType.INFO, f"Bye bye {current_user.username}.")
         logout_user()
-        session[Cookie.ALERT] = Alert(AlertType.INFO, f"Logged out.")
 
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/profile')
+def profile():
+    return render_template(
+        'profile.html',
+        alert=session.pop(Cookie.ALERT, None),
+        name=current_user.username
+    )

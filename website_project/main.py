@@ -3,7 +3,7 @@ from typing import List
 
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, session
-from flask_login import current_user, login_required
+from flask_login import login_required
 
 from website_project.activity import read_activity_specific_data, activities
 from website_project.common import get_config, Alert, AlertType, Cookie
@@ -54,15 +54,6 @@ def get_all_data() -> List[DataTable]:
         ))
 
     return all_data
-
-
-@app.route('/profile')
-def profile():
-    return render_template(
-        'profile.html',
-        alert=session.pop(Cookie.ALERT, None),
-        name=current_user.username
-    )
 
 
 @app.route("/", methods=['GET'])
