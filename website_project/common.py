@@ -6,10 +6,18 @@ from dataclasses import dataclass
 import yaml
 from flask import url_for
 
+# Root directory path
 ROOT_DIR: str = os.path.split(re.search(r'(^.+website_project)', __file__).group(1))[0]
 
 
+class Cookie:
+    """Support for session values."""
+    ALERT = "my_alert"
+    REDIRECT_BACK = "my_redirect_back"
+
+
 def get_config() -> Dict:
+    """Provides project config."""
     path = os.path.join(ROOT_DIR, "config.yml")
     with open(path, "r") as stream:
         return yaml.safe_load(stream)
@@ -31,11 +39,11 @@ class Alert:
 
 
 # TODO: unit test
-def link_to(endpoint: str, text: Optional[str] = None) -> str:
+def html_anchor(endpoint: str, text: Optional[str] = None) -> str:
     """Provides HTML link to given endpoint.
 
     Remember that when injecting in HTML through Jinja variable,
     it requires additional "safe" annotation to let it be actually
     treated as HTML element.
     """
-    return f"<a href='{url_for(endpoint)}'>{text if text is not None else endpoint}</a>"
+    return f"<a href='{url_for(endpoint)}'>{text if text is not None else url_for(endpoint)}</a>"

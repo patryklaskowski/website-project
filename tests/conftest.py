@@ -1,6 +1,8 @@
-from website_project.main import app
+from website_project.main import create_app
 import pytest
 from flask.testing import FlaskClient
+
+app = create_app()
 
 
 @pytest.fixture
