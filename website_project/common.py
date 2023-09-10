@@ -6,10 +6,18 @@ from dataclasses import dataclass
 import yaml
 from flask import url_for
 
+# Root directory path
 ROOT_DIR: str = os.path.split(re.search(r'(^.+website_project)', __file__).group(1))[0]
 
 
+class Cookie:
+    """Support for session values."""
+    ALERT = "my_alert"
+    REDIRECT_BACK = "my_redirect_back"
+
+
 def get_config() -> Dict:
+    """Provides project config."""
     path = os.path.join(ROOT_DIR, "config.yml")
     with open(path, "r") as stream:
         return yaml.safe_load(stream)
