@@ -48,9 +48,9 @@
                     <li class="nav-item"><a href="{{ url_for('activity_form') }}" class="btn btn-outline-light text-body-secondary" aria-current="page">Add activity</a></li>
                     <li class="nav-item"><a href="{{ url_for('activity_data') }}" class="btn btn-dark text-body-secondary" aria-current="page">Data</a></li>
                     <li class="nav-item"><a href="{{ url_for('home_page') }}" class="btn btn-dark text-body-secondary">Home</a></li>
-                    <li class="nav-item"><a href="{{ url_for('login') }}" class="btn btn-dark text-body-secondary">Login</a></li>
-                    <li class="nav-item"><a href="{{ url_for('signup') }}" class="btn btn-dark text-body-secondary">New Account</a></li>
-                    <li class="nav-item"><a href="{{ url_for('logout') }}" class="btn btn-dark text-body-secondary">Logout</a></li>
+                    <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="btn btn-dark text-body-secondary">Login</a></li>
+                    <li class="nav-item"><a href="{{ url_for('auth.signup') }}" class="btn btn-dark text-body-secondary">New Account</a></li>
+                    <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="btn btn-dark text-body-secondary">Logout</a></li>
                     <li class="nav-item"><a href="{{ url_for('profile') }}" class="btn btn-dark text-body-secondary">Profile</a></li>
                 </ul>
             </header>
