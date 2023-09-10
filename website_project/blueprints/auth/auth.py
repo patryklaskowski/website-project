@@ -15,7 +15,7 @@ from flask_login import login_user, current_user, logout_user
 from website_project.user import find_user_by_username, RegisteredUser, user_exists, register_user
 from website_project.common import Cookie, Alert, AlertType
 
-auth = Blueprint(
+auth_bp = Blueprint(
     name='auth',
     import_name=__name__,
     template_folder='templates',
@@ -23,7 +23,7 @@ auth = Blueprint(
 )
 
 
-@auth.route('/login', methods=["POST", "GET"])
+@auth_bp.route('/login', methods=["POST", "GET"])
 def login():
     """Login page."""
     if request.method == "GET":
@@ -49,7 +49,7 @@ def login():
         return redirect(url_for('auth.profile'))
 
 
-@auth.route('/signup', methods=["POST", "GET"])
+@auth_bp.route('/signup', methods=["POST", "GET"])
 def signup():
     if request.method == "GET":
         return render_template("signup.html", alert=session.pop(Cookie.ALERT, None))
@@ -78,7 +78,7 @@ def signup():
         return redirect(url_for('auth.profile'))
 
 
-@auth.route('/logout', methods=["GET"])
+@auth_bp.route('/logout', methods=["GET"])
 def logout():
     if current_user.is_authenticated:
         session[Cookie.ALERT] = Alert(AlertType.INFO, f"Bye bye {current_user.username}.")
@@ -87,7 +87,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
-@auth.route('/profile')
+@auth_bp.route('/profile')
 def profile():
     return render_template(
         'profile.html',

@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from typing import Dict, Optional, Tuple, Iterable
+from typing import Dict, Optional, Iterable
 import os
 import pandas as pd
 
+load_dotenv()
 
 class MongoDb:
     def __init__(

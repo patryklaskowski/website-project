@@ -4,7 +4,7 @@ from flask import Flask, session, request, redirect, url_for, Response
 from flask_login import LoginManager
 
 from website_project.user import find_user_by_username, User, GuestUser
-from website_project.common import Cookie, Alert, AlertType, link_to
+from website_project.common import Cookie, Alert, AlertType, html_anchor
 
 
 def _unauthorized_access_view() -> Response:
@@ -20,7 +20,7 @@ def _unauthorized_access_view() -> Response:
     print(f"You need to be logged in to enter {url_for(request.endpoint)} endpoint.")
     session[Cookie.ALERT] = Alert(
         AlertType.WARNING,
-        f"You need to be logged in to access {link_to(request.endpoint)} endpoint.",
+        f"You need to be logged in to access {html_anchor(request.endpoint)} endpoint.",
     )
 
     session[Cookie.REDIRECT_BACK] = request.endpoint
